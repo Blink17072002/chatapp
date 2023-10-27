@@ -1,0 +1,117 @@
+{% include 'chat/navbar.html' %}
+
+{% load static %}
+
+<main>
+    <div class="wrapper">
+        <section class="chat-area">
+            <header>
+                <a href="#" class="back-icon"><i class="fas fa-arrow-left"></i></a>
+                <img src="{% static 'images/avatar.svg' %}" alt="">
+                <div class="details">
+                    <span>{{ room.name }}</span>
+                    <p>{{ room.description }}</p>
+                </div>
+            </header>
+            <div class="chat-box">
+                <!-- This part is to make sure the messages don't disappear after refreshing or exiting the page -->
+               {% for message in messages %}
+                    <div class="chat {% if message.user == user %}outgoing{% else %}incoming{% endif %}">
+                        {% if message.user != user %}
+                            <img src="{{ avatar_url }}" alt="{{ message.user.username }}">
+                        {% endif %}
+                        <div class="details">
+                            <p>{{ message.content }}</p>
+                        </div>
+                    </div>
+               {% endfor %}
+            </div>
+            <form class="typing-area">
+                <input type="text" placeholder="Type a message here...">
+                <button>
+                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-send"
+                        viewBox="0 0 16 16">
+                        <path
+                            d="M15.854.146a.5.5 0 0 1 .11.54l-5.819 14.547a.75.75 0 0 1-1.329.124l-3.178-4.995L.643 7.184a.75.75 0 0 1 .124-1.33L15.314.037a.5.5 0 0 1 .54.11ZM6.636 10.07l2.761 4.338L14.13 2.576 6.636 10.07Zm6.787-8.201L1.591 6.602l4.339 2.76 7.494-7.493Z" />
+                    </svg>
+                </button>
+            </form>
+        </section>
+    </div>
+</main>
+
+{% block scripts %}
+
+{{ room.slug|json_script:"json-roomname" }}
+{{ request.user.username|json_script:"json-username" }}
+    <!-- Javascript realtime handling of the websocket -->
+    <script>
+        const roomName = JSON.parse(document.getElementById('json-roomname').textContent);
+        const userName = JSON.parse(document.getElementById('json-username').textContent);
+
+        const chatSocket = new WebSocket(
+        'ws://' + window.location.host + '/ws/' + roomName + '/'
+        );
+
+
+        chatSocket.onmessage = function (e) {
+            const receivedData = JSON.parse(e.data);
+
+            if (receivedData.message) {
+                const chatBox = document.querySelector('.chat-box');
+
+                const messageContainer = document.createElement('div');
+                messageContainer.classList.add('chat');
+
+                // Check if the sender is the current user
+                if (receivedData.sender === userName) {
+                    messageContainer.classList.add('outgoing');
+                } else {
+                    messageContainer.classList.add('incoming');
+                }
+
+                if (receivedData.sender !== userName) {
+                    const userAvatar = document.createElement('img');
+                    userAvatar.src = receivedData.avatar; // Set the sender's avatar image source
+                    userAvatar.alt = receivedData.sender;
+                    messageContainer.appendChild(userAvatar);
+                }
+
+                const messageDetails = document.createElement('div');
+                messageDetails.classList.add('details');
+
+                const messageParagraph = document.createElement('p');
+                messageParagraph.textContent = receivedData.message;
+
+                messageDetails.appendChild(messageParagraph);
+                messageContainer.appendChild(messageDetails);
+                chatBox.appendChild(messageContainer);
+            } else {
+                alert('The message was empty!');
+            }
+        };
+
+
+        chatSocket.onclose = function (e) {
+        console.log('WebSocket closed');
+        };
+
+        document.querySelector('.typing-area button').addEventListener('click', function(e){
+            e.preventDefault();
+        const messageInput = document.querySelector('.typing-area input');
+        const message = messageInput.value.trim();
+
+        if(message){
+            chatSocket.send(JSON.stringify({
+                message: message,
+                sender: userName,
+                room: roomName,
+                avatar: '{{ avatar_url }}' // Set the sender's avatar image source
+            }));
+
+        messageInput.value = '';
+            }
+        });
+    </script>
+
+{% endblock %}

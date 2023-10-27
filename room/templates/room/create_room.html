@@ -1,0 +1,25 @@
+{% include 'chat/navbar.html' %}
+
+
+{% block content %}
+
+{% load static %}
+<main>
+    <div class="wrapper">
+        <form method="post" action="{% url 'room:create_room' %}" class="typing-area">
+            {% csrf_token %}
+            <p>Room Name</p>
+            <input type="text" id="name" name="name">
+            {{ form.name.errors }}
+        
+            <p>Description</p>
+            <input type="text" id="description" name="description">
+            {{ form.description.errors }}
+            <div class="you">
+                <button type="submit" class="btn btn-primary">Create Room</button>
+            </div>
+            
+        </form>
+    </div>
+</main>
+{% endblock %}

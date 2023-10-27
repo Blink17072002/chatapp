@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en">
+{% load static %}
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="{% static 'chat/css/navbar.css' %}">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
+    <title>NavBar</title>
+</head>
+
+<body>
+    <!--Nav Bar-->
+    <div class="hero">
+        <nav>
+            <ul>
+                <li><a href="#">Chats</a></li>
+                <li><a href="#">Rooms</a></li>
+                <li><a href="#">Users</a></li>
+
+            </ul>
+            <img src="{% static 'images/avatar.svg' %}" class="user-pic" onclick="toggleMenu()">
+
+            <div class="sub-menu-wrap" id="subMenu">
+                <div class="sub-menu">
+                    <div class="user-info">
+                        <img src="{% static 'images/avatar.svg' %}">
+                        <h3>Blink</h3>
+                    </div>
+                    <hr>
+
+                    <a href="#" class="sub-menu-link">
+                        <img src="{% static 'images/profile.png' %}" alt="">
+                        <p>Edit Profile</p>
+                        <span>></span>
+                    </a>
+
+                    <a href="#" class="sub-menu-link">
+                        <img src="{% static 'images/setting.png' %}" alt="">
+                        <p>Settings & Privacy</p>
+                        <span>></span>
+                    </a>
+
+                    <a href="#" class="sub-menu-link">
+                        <img src="{% static 'images/help.png' %}" alt="">
+                        <p>Help & Support</p>
+                        <span>></span>
+                    </a>
+
+                    <a href="#" class="sub-menu-link">
+                        <img src="{% static 'images/logout.png' %}" alt="">
+                        <p>Logout</p>
+                        <span>></span>
+                    </a>
+                </div>
+            </div>
+
+            <!-- Menu button for mobile -->
+            <div class="menu-button" onclick="toggle()">
+                <div class="menu-bar"></div>
+                <div class="menu-bar"></div>
+                <div class="menu-bar"></div>
+            </div>
+
+
+            <ul class="mobile-menu" id="mobileMenu">
+                <li><a href="#">Chats</a></li>
+                <hr>
+                <li><a href="#">Rooms</a></li>
+                <hr>
+                <li><a href="#">Users</a></li>
+            </ul>
+        </nav>
+    </div>
+
+    <script>
+        let subMenu = document.getElementById("subMenu");
+        let MobileMenu = document.getElementById('mobileMenu')
+
+        function toggleMenu() {
+            subMenu.classList.toggle("open-menu");
+        }
+
+        function toggle() {
+            MobileMenu.classList.toggle("open-menu")
+        }
+    </script>
+</body>

@@ -1,0 +1,128 @@
+<!-- {% load static %}
+
+<link rel="stylesheet" href="{% static 'styles/chat_page.css' %}">
+
+ Chats page section i.e list of chats the user has either sent or received. More like your home page on whatsapp which is your chatslist-->
+<!-- <div class="chat-list">
+
+    {% for message in messages %}
+    <div class="chat-item">
+        {% if message.sender == user %}
+        <img src="{{message.sender.profile_pic.url}}">
+        <div class="chat-info">
+            <a href="{% url 'chat' %}">
+                <h3>{{message.sender.username}}</h3>
+            </a>
+            <p>{{message.content}}</p>
+            <p class="timestamp">{{ message.timestamp }}</p>
+        </div>
+        {% else %}
+        <img src="{{message.receiver.profile_pic.url}}">
+        <div class="chat-info">
+            <a href="{% url 'chat' %}">
+                <h3>{{message.receiver.username}}</h3>
+            </a>
+        </div>
+        {% endif %}
+        <p>{{message.content}}</p>
+        <p class="timestamp">{{ message.timestamp }}</p>
+    </div>
+    {% endfor %}
+
+
+
+
+</div> -->
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+
+    <title>Document</title>
+    <link rel="stylesheet" href="new_chat_page.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
+
+</head>
+<main>
+    <div class="wrapper">
+        <section class="users">
+            <header>
+                <div class="content">
+                    <img src="images/avatar.svg" alt="">
+                    <div class="details">
+                        <span>Blink</span>
+                        <p>Active now</p>
+                    </div>
+                </div>
+                <a href="#" class="logout">Logout</a>
+            </header>
+
+            <div class="search">
+                <span class="text">Select an user to start chat with</span>
+                <input type="text" placeholder="Enter a name to search ...">
+                <button><i class="fas fa-search"></i></button>
+            </div>
+
+            <div class="users-list">
+                <a href="#">
+                    <div class="content">
+                        <img src="images/avatar.svg" alt="">
+                        <div class="details">
+                            <span>Blink</span>
+                            <p>This is a test message</p>
+                        </div>
+                    </div>
+                    <div class="status-dot"><i class="fas fa-circle"></i></div>
+                </a>
+                <a href="#">
+                    <div class="content">
+                        <img src="images/avatar.svg" alt="">
+                        <div class="details">
+                            <span>Blink</span>
+                            <p>This is a test message</p>
+                        </div>
+                    </div>
+                    <div class="status-dot"><i class="fas fa-circle"></i></div>
+                </a>
+                <a href="#">
+                    <div class="content">
+                        <img src="images/avatar.svg" alt="">
+                        <div class="details">
+                            <span>Blink</span>
+                            <p>This is a test message</p>
+                        </div>
+                    </div>
+                    <div class="status-dot"><i class="fas fa-circle"></i></div>
+                </a>
+                <a href="#">
+                    <div class="content">
+                        <img src="images/avatar.svg" alt="">
+                        <div class="details">
+                            <span>Blink</span>
+                            <p>This is a test message</p>
+                        </div>
+                    </div>
+                    <div class="status-dot"><i class="fas fa-circle"></i></div>
+                </a>
+                <a href="#">
+                    <div class="content">
+                        <img src="images/avatar.svg" alt="">
+                        <div class="details">
+                            <span>Blink</span>
+                            <p>This is a test message</p>
+                        </div>
+                    </div>
+                    <div class="status-dot"><i class="fas fa-circle"></i></div>
+                </a>
+            </div>
+        </section>
+    </div>
+
+    <script src="javascript/search_icon.js"></script>
+</main>
+
+</html>

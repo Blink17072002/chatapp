@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+
+<html lang="en" dir="ltr">
+{% load static %}
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sign Up</title>
+    <link rel="stylesheet" href="{% static 'chat/css/sign_up.css' %}">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.2/css/all.min.css"/>
+
+</head>
+
+<body>
+    <!--Login-->
+    {% if page == 'login' %}
+        <div class="wrapper">
+            <h2>Login</h2>
+            <form action="" method="POST">
+                {% csrf_token %}
+        
+                <div class="input-box">
+                    <input id="email" name="email" type="text" placeholder="Enter your email" required>
+                </div>
+                <div class="input-box">
+                    <input id="password" name="password" type="password" placeholder="Enter your password" required>
+                </div>
+        
+                {% if messages %}
+                <ul class="messages">
+                    {% for message in messages %}
+                    <p {% if message.tags %} class="{{ message.tags }}" {% endif %}>
+                    <div style="color: red; font-size: 14px; margin-top: 5px; text-align: center;">{{ message }}</div>
+                    </p>
+                    {% endfor %}
+        
+                </ul>
+                {% endif %}
+        
+                <div class="input-box button">
+                    <input type="Submit" value="Login">
+                </div>
+                <div class="input-box button">
+                    <input type="Submit" value="Login with Google">
+                </div>
+                <div class="text">
+                    <h3>Don't have an account? <a href="{% url 'sign_up' %}">Sign up now</a></h3>
+                </div>
+        
+            </form>
+        </div>
+
+    {% else %}
+    <!--Sign up-->
+    <div class="wrapper">
+        <h2>Sign Up</h2>
+        <form action="" method="POST">
+            {% csrf_token %}
+            {% for field in form %}
+                <div class="input-box">                  
+                    {{ field }}                   
+                </div>
+            {% endfor %}
+
+            
+            {% if messages %}
+            <ul class="messages">
+                {% for message in messages %}
+                    <p {% if message.tags %} class="{{ message.tags }}" {% endif %}>
+                        <div style="color: red; font-size: 14px; margin-top: 5px; text-align: center;">{{ message }}</div>
+                    </p>
+                {% endfor %}
+                
+            </ul>
+            {% endif %}
+
+            {% for field in form %}
+                {% if field.errors %}
+                <p style="margin-top: 2%; text-align: center;">
+                    {% for error in field.errors %}
+                
+                    <span style="color: black;">{{ error }}</span> <br>
+                
+                    {% endfor %}
+                </p>
+                {% endif %}
+            {% endfor %}
+
+            <div class="input-box button">
+                <input type="Submit" value="Sign up">
+            </div>
+
+            <div class="input-box button">
+                <input type="Submit" value="Sign up with Google">
+            </div>
+            <div class="text">
+                <h3>Already have an account? <a href="{% url 'login' %}">Login now</a></h3>
+            </div>
+        </form>
+
+    </div>
+    
+    {% endif %}
+    
+</body>
+
+</html>
+
+
